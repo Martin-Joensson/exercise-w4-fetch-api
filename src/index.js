@@ -21,7 +21,18 @@ const types = document.getElementById("types");
 
 const fetchPokemons = () => {
   /*Fetch all pokemons here*/
+  fetch("https://pokeapi.co/api/v2/pokemon")
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      console.log(json);
+    })
+    .catch((err) => {
+      console.log("caught error.", err);
+    });
 };
+//fetchPokemons();
 
 // 2) a) As you can see, we get some metadata as well as
 //    the results of the fetch. Change the console.log so
@@ -32,6 +43,27 @@ const fetchPokemons = () => {
 
 //    c) Log the names of all pokemons in the array
 
+const fetchPokemonName = () => {
+  /*Fetch all pokemons here*/
+  fetch("https://pokeapi.co/api/v2/pokemon")
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      // Log first name in array.
+      console.log(json.results[0].name);
+
+      // Log all names in array.
+      json.results.forEach((pokemon) => {
+        console.log(pokemon.name);
+      });
+    })
+    .catch((err) => {
+      console.log("caught error.", err);
+    });
+};
+//fetchPokemonName();
+
 // 3) You might know that there are more than 20 pokemons
 //    in the pokedex. Add a query parameter
 //    called "limit" to the URL, and set it to a number of your
@@ -39,15 +71,82 @@ const fetchPokemons = () => {
 //    and pick a pokemon that you would like to continue
 //    working with. Copy the pokemon's URL.
 
+const fetchPokemonLimit = () => {
+  /*Fetch all pokemons here*/
+  fetch("https://pokeapi.co/api/v2/pokemon/?limit=151")
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      // Log first name in array.
+      console.log(json.results[132].name);
+
+      // Log all names in array.
+      json.results.forEach((pokemon) => {
+        console.log(pokemon.name);
+      });
+    })
+    .catch((err) => {
+      console.log("caught error.", err);
+    });
+};
+//fetchPokemonLimit();
+
 // 4) Now that we've picked a pokemon, we will do a new fetch
 //    to the URL we copied. Since that's another endpoint,
 //    we will create a new fetch inside the fetchBulbasaurData
 //    function (change the function's name to fit your pokemon).
 //    Log the data in the console and see what you find.
 
-const fetchBulbasaurData = () => {
+const fetchEeveeData = () => {
   /*Fetch singular pokemon here*/
+  fetch("https://pokeapi.co/api/v2/pokemon/133/")
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      // Log first name in array.
+      console.log(json);
+      image.src = json.sprites.front_default;
+      name.innerText = json.name.charAt(0).toUpperCase() + json.name.slice(1);
+      height.innerText = json.height;
+      weight.innerText = json.weight;
+      types.innerHTML = "";
+      json.types.forEach((x) => {
+        types.innerHTML += `<p>${x.type.name}</p>`;
+      });
+    })
+    .catch((err) => {
+      console.log("caught error.", err);
+    });
 };
+fetchEeveeData();
+
+const fetchParasData = () => {
+  /*Fetch singular pokemon here*/
+  fetch("https://pokeapi.co/api/v2/pokemon/47/")
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      // Log first name in array.
+      console.log(json);
+      image.src = json.sprites.front_default;
+      name.innerText = json.name.charAt(0).toUpperCase() + json.name.slice(1);
+      height.innerText = json.height;
+      weight.innerText = json.weight;
+      const currentTypes = json.types.map(
+        (x) => x.type.name.charAt(0).toUpperCase() + x.type.name.slice(1)
+      );
+      console.log(json.types[0].type.name);
+      console.log(currentTypes);
+      types.innerHTML = currentTypes.join(", ");
+    })
+    .catch((err) => {
+      console.log("caught error.", err);
+    });
+};
+fetchParasData();
 
 // 5) After familiarizing with the data, we will use the data
 //    to change our table. We will give you the image as a start.
